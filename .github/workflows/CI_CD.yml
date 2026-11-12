@@ -38,28 +38,26 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: build
+          path: dist
 
 
   cd:
     name: Deploy to Netlify (CD)
     needs: ci                     #only after CI success
     runs-on: ubuntu-latest
-
-    # Optional safety: deploy only on master push (not PRs)
-    # if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: build
+          path: dist
 
       - name: Deploy to Netlify
         uses: netlify/actions/cli@master
         with:
-          args: deploy --dir=build --prod
+          args: deploy --dir=dist --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
