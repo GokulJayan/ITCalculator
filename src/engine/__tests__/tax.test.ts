@@ -1,0 +1,78 @@
+import { describe, expect, it } from 'vitest'
+import { calculateTax } from '../tax'
+import { takeHome } from '../takeHome'
+import { defaultInputs } from '../../state/useInputs'
+
+describe('FY 2026–27 new-regime estimate', () => {
+  it('calculates the ₹15L salaried example including cess', () => {
+    const result = calculateTax({ ...defaultInputs, gross: 1_500_000 })
+    expect(result.taxable).toBe(1_425_000)
+    expect(result.base).toBe(93_750)
+    expect(result.cess).toBe(3_750)
+    expect(result.total).toBe(97_500)
+  })
+
+  it('rebates tax at the ₹12.75L gross salary threshold', () => {
+    const result = calculateTax({ ...defaultInputs, gross: 1_275_000 })
+    expect(result.taxable).toBe(1_200_000)
+    expect(result.total).toBe(0)
+  })
+
+  it('applies marginal relief above the rebate limit and adds cess', () => {
+    const result = calculateTax({ ...defaultInputs, gross: 1_280_000 })
+    expect(result.taxable).toBe(1_205_000)
+    expect(result.rebateRelief).toBe(55_750)
+    expect(result.total).toBe(5_200)
+    expect(result.marginalRate).toBeCloseTo(1.04, 2)
+  })
+
+  it('does not apply the section 87A rebate to an NRI', () => {
+    const result = calculateTax({
+      ...defaultInputs,
+      gross: 1_280_000,
+      nri: true,
+    })
+    expect(result.total).toBe(63_180)
+  })
+
+  it('applies the 10% surcharge tier above ₹50L taxable income', () => {
+    const result = calculateTax({ ...defaultInputs, gross: 6_000_000 })
+    expect(result.taxable).toBe(5_925_000)
+    expect(result.surcharge).toBeGreaterThan(0)
+    expect(result.surcharge / (result.base * 0.1)).toBeCloseTo(1, 8)
+  })
+
+  it('handles income at or below the standard deduction', () => {
+    for (const gross of [0, 1, 75_000]) {
+      expect(calculateTax({ ...defaultInputs, gross }).total).toBe(0)
+    }
+  })
+
+  it('matches notebook tax before cess at representative salaries', () => {
+    const salaries = [
+      { gross: 1_500_000, taxBeforeCess: 93_750 },
+      { gross: 1_280_000, taxBeforeCess: 5_000 },
+      { gross: 1_275_000, taxBeforeCess: 0 },
+    ]
+    for (const sample of salaries) {
+      const { cess: _cess, total, ...result } = calculateTax({
+        ...defaultInputs,
+        gross: sample.gross,
+      })
+      expect(total - _cess).toBe(sample.taxBeforeCess)
+      expect(result.taxable).toBeGreaterThanOrEqual(0)
+    }
+  })
+
+  it('keeps tax non-decreasing and take-home non-negative as salary rises', () => {
+    let previousTax = 0
+    for (let gross = 0; gross <= 30_000_000; gross += 10_000) {
+      const inputs = { ...defaultInputs, gross }
+      const result = calculateTax(inputs)
+      const net = takeHome(inputs, result)
+      expect(result.total).toBeGreaterThanOrEqual(previousTax)
+      expect(net.annual).toBeGreaterThanOrEqual(0)
+      previousTax = result.total
+    }
+  })
+})
