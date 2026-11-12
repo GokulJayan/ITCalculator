@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Area,
   CartesianGrid,
@@ -75,8 +75,8 @@ const donutLabel = ({
   const labelY = leftSide
     ? cy
     : isIncomeTax
-      ? cy - outerRadius * 0.7
-      : cy + outerRadius * 0.7
+      ? cy + outerRadius * 0.7
+      : cy - outerRadius * 0.7
   const rightLane = isIncomeTax ? 36 : 18
   const elbowX = cx + (leftSide ? -outerRadius - 16 : outerRadius + rightLane)
   const lineEndX = labelX + (leftSide ? 8 : -8)
@@ -84,13 +84,15 @@ const donutLabel = ({
   return (
     <g>
       <path
+        className="donut-callout"
         d={`M${startX},${startY} L${elbowX},${startY} L${elbowX},${labelY} L${lineEndX},${labelY}`}
         fill="none"
         stroke={color}
         strokeWidth={1.5}
       />
-      <circle cx={startX} cy={startY} r={3} fill={color} />
+      <circle className="donut-callout" cx={startX} cy={startY} r={3} fill={color} />
       <text
+        className="donut-callout"
         x={labelX}
         y={labelY - 7}
         fill="#43564a"
@@ -110,14 +112,23 @@ const donutLabel = ({
 }
 
 export function Charts({ inputs, result }: ChartsProps) {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 760px)')
+    const updateViewport = () => setIsMobile(mediaQuery.matches)
+    updateViewport()
+    mediaQuery.addEventListener('change', updateViewport)
+    return () => mediaQuery.removeEventListener('change', updateViewport)
+  }, [])
+
   const chartMax = Math.ceil(Math.max(3_000_000, inputs.gross * 1.15) / 100_000) * 100_000
   const data = useMemo(() => sweep(500_000, chartMax, 301, inputs), [chartMax, inputs])
   const band = reliefBand()
   const takeHome = calculateTakeHome(inputs, result)
   const donut = [
     { name: 'In-hand', value: takeHome.annual, fill: '#2a7665' },
-    { name: 'PF', value: takeHome.pf, fill: '#e8b44e' },
     { name: 'Income tax incl. cess & PT', value: result.total + takeHome.pt, fill: '#ee987c' },
+    { name: 'PF', value: takeHome.pf, fill: '#e8b44e' },
   ].filter((entry) => entry.value > 0)
 
   return (
@@ -171,17 +182,26 @@ export function Charts({ inputs, result }: ChartsProps) {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  innerRadius="24%"
-                  outerRadius="78%"
+                  innerRadius={isMobile ? '25%' : '24%'}
+                  outerRadius={isMobile ? '88%' : '78%'}
                   paddingAngle={3}
                   stroke="none"
-                  label={donutLabel}
+                  label={isMobile ? false : donutLabel}
                   labelLine={false}
                 />
               </PieChart>
             </ResponsiveContainer>
-            <div className="donut-center"><strong>{formatINRCompact(inputs.gross)}</strong><span>gross salary</span></div>
+            <div className="donut-center"><strong>{formatINRCompact(inputs.gross)}</strong><span>gross</span></div>
           </div>
+          <ul className="donut-mobile-legend">
+            {donut.map((entry) => (
+              <li key={entry.name}>
+                <i style={{ backgroundColor: entry.fill }} />
+                <span>{entry.name}</span>
+                <strong>{formatINR(entry.value)}</strong>
+              </li>
+            ))}
+          </ul>
         </div>
         <p className="chart-footnote">The tax schedule used for this estimate is configured for {FY.label}.</p>
       </section>

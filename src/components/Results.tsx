@@ -51,7 +51,8 @@ export function SlabTable({ result }: { result: TaxResult }) {
         </div>
         <span className="soft-tag">New regime</span>
       </div>
-      <div className="table-scroll">
+      <p className="table-scroll-hint">Swipe horizontally to see all columns</p>
+      <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable tax breakdown table">
         <table>
           <thead>
             <tr>
@@ -124,8 +125,16 @@ export function TakeHomeCard({ takeHome, inputs }: ResultsProps) {
               Yearly
             </button>
           </div>
-          <button className="text-button no-print" type="button" onClick={() => window.print()}>
-            Print summary
+          <button
+            className="download-button no-print"
+            type="button"
+            onClick={() => window.print()}
+            aria-label="Print or save summary"
+            title="Print or save summary"
+          >
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 2.5v9m0 0 3.5-3.5M10 11.5 6.5 8M4 13v4h12v-4" />
+            </svg>
           </button>
         </div>
       </div>
