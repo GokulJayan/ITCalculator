@@ -1,5 +1,5 @@
 export const FY = {
-  label: 'FY 2026–27',
+  label: 'FY 2026-27',
   assessmentYear: 'AY 2027–28',
   slabs: [
     { upto: 400_000, rate: 0 },

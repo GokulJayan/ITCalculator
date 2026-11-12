@@ -3,7 +3,7 @@ import { calculateTax } from '../tax'
 import { takeHome } from '../takeHome'
 import { defaultInputs } from '../../state/useInputs'
 
-describe('FY 2026–27 new-regime estimate', () => {
+describe('FY 2026-27 new-regime estimate', () => {
   it('calculates the ₹15L salaried example including cess', () => {
     const result = calculateTax({ ...defaultInputs, gross: 1_500_000 })
     expect(result.taxable).toBe(1_425_000)

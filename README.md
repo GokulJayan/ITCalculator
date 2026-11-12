@@ -2,7 +2,7 @@
 
 Live: https://itcalculatorindia.netlify.app
 
-A client-side React + TypeScript estimate for India's new tax regime for FY 2026–27 (AY 2027–28). The tax engine is plain TypeScript and independent of React. Inputs are kept in the URL query string for sharing; no calculator inputs are sent to a server.
+A client-side React + TypeScript estimate for India's new tax regime for FY 2026-27 (AY 2027–28). The tax engine is plain TypeScript and independent of React. Inputs are kept in the URL query string for sharing; no calculator inputs are sent to a server.
 
 ## Run locally
 
