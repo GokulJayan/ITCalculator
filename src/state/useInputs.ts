@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import type { TaxInputs } from '../engine/tax'
 
 export const defaultInputs: TaxInputs = {
-  gross: 1_500_000,
-  basic: 1_500_000,
+  gross: 2_000_000,
+  basic: 2_000_000,
   basicMatchesGross: true,
   otherIncome: 0,
   employerNps: 0,

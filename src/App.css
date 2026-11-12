@@ -133,6 +133,7 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 .chart-loading { margin-top: 20px; color: #78857d; font-size: 11px; }
 .chart-wide { grid-column: 1 / -1; }
 .chart-card { min-width: 0; }
+.donut-card { order: -1; grid-column: 1 / -1; }
 .chart-card .section-heading { margin-bottom: 7px; }
 .chart-description, .chart-footnote { color: #8b9690; font-size: 10px; line-height: 1.55; }
 .chart-description { margin-bottom: 8px; }
@@ -140,19 +141,23 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 .chart-legend { display: flex; align-items: center; gap: 7px; color: #6f8075; font-size: 9px; }
 .chart-legend i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
 .chart-wrap { width: 100%; height: 250px; }
+.chart-axis-layout { display: flex; flex-direction: column; width: 100%; height: 275px; }
+.chart-axis-layout > .chart-wrap { height: 0; flex: 1 1 auto; }
+.chart-axis-layout-small { height: 219px; }
+.chart-with-y-title { display: grid; grid-template-columns: 24px minmax(0, 1fr); align-items: stretch; gap: 6px; }
+.chart-y-title { align-self: center; justify-self: center; color: #78827c; font-size: 14px; line-height: 1.2; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+.chart-plot { min-width: 0; height: 100%; }
 .chart-small { height: 194px; }
+.chart-axis-layout .chart-small { height: 0; }
+.chart-x-title { display: grid; flex: 0 0 26px; place-items: center; color: #78827c; font-size: 14px; line-height: 1; }
 .chart-tooltip { display: flex; flex-direction: column; gap: 5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 7px; background: white; box-shadow: 0 5px 18px #10281d12; font-size: 10px; }
 .chart-tooltip strong { color: var(--ink); }
 .chart-tooltip span { font-weight: 600; }
-.donut-layout { display: flex; align-items: center; gap: 13px; min-height: 176px; }
-.donut-wrap { position: relative; flex: 0 0 48%; height: 170px; }
+.donut-layout { display: block; width: min(100%, 1200px); margin: 0 auto; }
+.donut-wrap { position: relative; width: 100%; height: 460px; }
 .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; }
-.donut-center strong { color: var(--ink); font: 700 17px Manrope, sans-serif; }
-.donut-center span { color: #8c9790; font-size: 8px; }
-.donut-legend { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 0; margin: 0; list-style: none; }
-.donut-legend li { display: grid; grid-template-columns: 8px 1fr; gap: 3px 7px; align-items: center; color: #76827a; font-size: 9px; }
-.donut-legend li i { width: 7px; height: 7px; border-radius: 50%; grid-row: span 2; }
-.donut-legend li strong { color: #43564a; font-size: 10px; font-weight: 600; }
+.donut-center strong { color: var(--ink); font: 700 28px Manrope, sans-serif; }
+.donut-center span { color: #8c9790; font-size: 14px; }
 .footer { display: flex; align-items: flex-start; gap: 22px; margin-top: 28px; padding: 22px 0 92px; border-top: 1px solid var(--line); }
 .footer-brand { flex: 0 0 125px; font-size: 16px; }
 .footer-brand .brand-mark { width: 25px; height: 25px; font-size: 13px; }
@@ -199,7 +204,8 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .chart-wide { grid-column: auto; }
   .chart-wrap { height: 225px; }
   .chart-small { height: 190px; }
-  .donut-layout { max-width: 420px; margin: 0 auto; }
+  .donut-layout { width: 100%; }
+  .donut-wrap { height: 380px; }
   .raise-card { grid-template-columns: 1fr; gap: 15px; }
   .raise-card .section-heading { grid-column: auto; }
   .footer { gap: 12px; }
@@ -222,7 +228,73 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .summary-card > strong { font-size: 18px; }
   .summary-primary > strong { font-size: 23px; }
   .content-card { padding: 13px; }
-  .donut-layout { gap: 4px; }
+  .donut-wrap { height: 320px; }
+}
+
+.brand, .footer-brand { font-size: 23px; }
+.brand-mark { width: 36px; height: 36px; font-size: 19px; }
+.fy-pill { padding: 10px 15px; font-size: 13px; }
+.share-button { font-size: 15px; }
+.share-button svg { width: 20px; height: 20px; }
+.hero-copy .eyebrow { font-size: 11px; }
+.hero-copy > p { font-size: 16px; }
+.calculator-layout { gap: 26px; }
+.input-panel { padding: 25px 24px 22px; }
+.panel-heading h2, .section-heading h2 { font-size: 21px; }
+.eyebrow { font-size: 11px; }
+.field-label, .toggle-row strong { font-size: 13px; }
+.field-hint, .toggle-row span, .assumption-note { font-size: 12px; }
+.amount-input-wrap { height: 48px; }
+.amount-input-wrap > span { font-size: 17px; }
+.amount-input-wrap input { font-size: 17px; }
+.toggle-row { padding: 14px 0; }
+.toggle-row input { width: 42px; height: 24px; }
+.toggle-row input::after { width: 18px; height: 18px; }
+.toggle-row input:checked::after { transform: translateX(18px); }
+.advanced-fields summary { font-size: 13px; }
+.advanced-fields summary span { font-size: 12px; }
+.summary-card { min-height: 145px; padding: 20px; }
+.summary-card > strong { font-size: 27px; }
+.summary-primary > strong { font-size: 30px; }
+.summary-card > span:last-child, .summary-topline { font-size: 10px; }
+.summary-icon { width: 26px; height: 26px; font-size: 14px; }
+.relief-notice { gap: 15px; padding: 18px 20px; }
+.relief-mark { flex-basis: 30px; width: 30px; height: 30px; font-size: 19px; }
+.relief-notice strong { font-size: 14px; }
+.relief-notice p { font-size: 13px; }
+.content-card { padding: 23px 24px; }
+.soft-tag { font-size: 11px; }
+.text-button { font-size: 13px; }
+.takehome-toggle button { min-width: 84px; padding: 9px 12px; font-size: 12px; }
+.takehome-total { padding: 18px 19px; }
+.takehome-total span { font-size: 14px; }
+.takehome-total strong { font-size: 26px; }
+.takehome-lines > div { padding: 10px 1px; font-size: 13px; }
+.takehome-lines strong { font-size: 13px; }
+.takehome-lines .takehome-annual strong { font-size: 15px; }
+table { font-size: 12px; }
+thead th { font-size: 11px; }
+tfoot .grand-total th, tfoot .grand-total td { font-size: 13px; }
+.raise-control label, .raise-result > span, .chart-description, .chart-footnote { font-size: 12px; }
+.raise-result strong { font-size: 24px; }
+.raise-result small { font-size: 12px; }
+.chart-legend { font-size: 11px; }
+.chart-legend i { width: 10px; height: 10px; }
+.footer-copy { font-size: 12px; }
+.share-toast { font-size: 13px; }
+
+@media (max-width: 760px) {
+  .fy-pill { font-size: 11px; }
+  .hero-copy > p { font-size: 14px; }
+  .summary-grid { gap: 10px; }
+  .summary-card { padding: 15px; }
+  .summary-card > strong { font-size: 24px; }
+  .summary-primary > strong { font-size: 27px; }
+  .summary-card > span:last-child { font-size: 11px; }
+  .content-card { padding: 19px; }
+  .mobile-taxbar { padding: 14px 18px calc(14px + env(safe-area-inset-bottom)); }
+  .mobile-taxbar span { font-size: 11px; }
+  .mobile-taxbar strong { font-size: 15px; }
 }
 
 @media print {

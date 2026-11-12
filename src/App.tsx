@@ -49,7 +49,7 @@ function App() {
         <section className="hero">
           <div className="hero-copy">
             <span className="eyebrow"><i /> TAX PLANNING, MADE CLEAR</span>
-            <h1>What you<br className="desktop-break" /> <em>actually take home.</em></h1>
+            <h1>Know what you<br className="desktop-break" /> <em>actually take home.</em></h1>
             <p>A considered estimate of your income tax and monthly in-hand pay under India’s new tax regime.</p>
           </div>
           <div className="hero-art" aria-hidden="true">
@@ -102,8 +102,8 @@ function App() {
 
       <div className="share-toast" role="status" aria-live="polite">{copyMessage}</div>
       <div className="mobile-taxbar no-print">
-        <div><span>Estimated tax</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(result.total)}</strong></div>
         <div><span>In-hand / month</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(takeHome.monthly)}</strong></div>
+        <div><span>Estimated tax</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(result.total)}</strong></div>
       </div>
     </div>
   )
