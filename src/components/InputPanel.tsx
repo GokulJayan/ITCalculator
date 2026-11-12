@@ -19,15 +19,15 @@ export function InputPanel({ inputs, onChange }: InputPanelProps) {
 
       <AmountField
         id="gross"
-        label="Annual gross salary"
+        label="Annual Fixed salary"
         value={inputs.gross}
         onChange={(gross) => onChange({ gross })}
         hint="Try 12L or 1.2cr"
       />
       <div className="toggle-row">
         <div>
-          <strong>Basic salary follows gross</strong>
-          <span>Use the same value as gross</span>
+          <strong>Basic salary follows fixed</strong>
+          <span>Use the same value as fixed</span>
         </div>
         <input
           type="checkbox"
@@ -39,7 +39,7 @@ export function InputPanel({ inputs, onChange }: InputPanelProps) {
               basic: basicMatchesGross ? inputs.gross : inputs.basic,
             })
           }}
-          aria-label="Basic salary follows gross"
+          aria-label="Basic salary follows fixed salary"
         />
       </div>
       {!inputs.basicMatchesGross && (
@@ -108,6 +108,36 @@ export function InputPanel({ inputs, onChange }: InputPanelProps) {
             label="Other taxable income"
             value={inputs.otherIncome}
             onChange={(otherIncome) => onChange({ otherIncome })}
+            compact
+          />
+          <AmountField
+            id="stocks"
+            label="Annual stock income"
+            value={inputs.stocks}
+            onChange={(stocks) => onChange({ stocks })}
+            hint="Tax treatment can vary; entered amount is modeled as taxable income"
+            compact
+          />
+          <AmountField
+            id="bonus"
+            label="Annual bonus"
+            value={inputs.bonus}
+            onChange={(bonus) => onChange({ bonus })}
+            compact
+          />
+          <AmountField
+            id="referralBonus"
+            label="Annual referral bonus"
+            value={inputs.referralBonus}
+            onChange={(referralBonus) => onChange({ referralBonus })}
+            compact
+          />
+          <AmountField
+            id="dividend"
+            label="Annual dividend income"
+            value={inputs.dividend}
+            onChange={(dividend) => onChange({ dividend })}
+            hint="Entered amount is modeled as taxable income"
             compact
           />
           <AmountField

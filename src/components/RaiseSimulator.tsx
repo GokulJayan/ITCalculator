@@ -10,7 +10,7 @@ export function RaiseSimulator({ inputs }: { inputs: TaxInputs }) {
   const nextTax = calculateTax(nextInputs)
   const currentTakeHome = takeHome(inputs, currentTax)
   const nextTakeHome = takeHome(nextInputs, nextTax)
-  const monthlyGain = nextTakeHome.monthly - currentTakeHome.monthly
+  const monthlyGain = nextTakeHome.salaryMonthly - currentTakeHome.salaryMonthly
 
   return (
     <section className="card content-card raise-card">

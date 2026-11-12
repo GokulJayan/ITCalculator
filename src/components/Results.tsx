@@ -13,15 +13,15 @@ export function ResultSummary({ result, takeHome }: ResultsProps) {
   const effectiveRate = result.taxable > 0 ? (result.total / result.taxable) * 100 : 0
   return (
     <section className="summary-grid" aria-label="Tax summary">
-      <div className="summary-card summary-primary">
-        <span className="summary-topline">ANNUAL INCOME AFTER TAX & PF</span>
-        <strong>{formatINRCompact(takeHome.annual)}</strong>
-        <span>After estimated income tax</span>
+      <div className="summary-card summary-income">
+        <span className="summary-topline">TOTAL ANNUAL INCOME</span>
+        <strong>{formatINRCompact(takeHome.totalIncome)}</strong>
+        <span>Fixed salary and all additional components</span>
       </div>
 
-      <div className="summary-card summary-secondary">
+      <div className="summary-card summary-tax">
         <div className="summary-topline">
-          <span>ESTIMATED INCOME TAX</span>
+          <span>TOTAL ANNUAL TAX</span>
           <span className="summary-icon">₹</span>
         </div>
         <strong>{formatINR(result.total)}</strong>
@@ -32,10 +32,10 @@ export function ResultSummary({ result, takeHome }: ResultsProps) {
         </span>
       </div>
 
-      <div className="summary-card summary-tertiary">
-        <span className="eyebrow">MARGINAL TAX RATE</span>
-        <strong>{(result.marginalRate * 100).toFixed(1)}%</strong>
-        <span>On the next ₹100 of taxable income</span>
+      <div className="summary-card summary-net">
+        <span className="summary-topline">NET INCOME AFTER TAX</span>
+        <strong>{formatINRCompact(takeHome.totalAfterTax)}</strong>
+        <span>Total annual income − total annual tax</span>
       </div>
     </section>
   )
@@ -96,25 +96,22 @@ export function SlabTable({ result }: { result: TaxResult }) {
 }
 
 export function TakeHomeCard({ takeHome, inputs }: ResultsProps) {
-  const [mode, setMode] = useState<'monthly' | 'yearly'>('monthly')
+  const [mode, setMode] = useState<'monthly' | 'yearly'>('yearly')
   const divisor = mode === 'monthly' ? 12 : 1
 
-  const totalValue = mode === 'monthly' ? takeHome.monthly : takeHome.annual
-  const totalLabel = mode === 'monthly' ? 'Monthly in-hand estimate' : 'Annual in-hand estimate'
-
-  const grossValue = (inputs.gross + inputs.otherIncome) / divisor
-  const taxValue = (mode === 'monthly' ? takeHome.monthlyTax * 12 : takeHome.monthlyTax * 12) / divisor
   const pfValue = takeHome.pf / divisor
   const ptValue = takeHome.pt / divisor
-  const finalTakeHomeValue = mode === 'monthly' ? takeHome.monthly : takeHome.annual
-  const finalTakeHomeLabel = mode === 'monthly' ? 'Monthly in-hand estimate' : 'Annual in-hand estimate'
+  const totalIncomeValue = takeHome.totalIncome / divisor
+  const totalTaxValue = takeHome.totalTax / divisor
+  const totalAfterTaxValue = takeHome.totalAfterTax / divisor
+  const salaryInHandValue = takeHome.salaryAnnual / divisor
 
   return (
     <section className="card content-card takehome-card">
       <div className="section-heading">
         <div>
-          <span className="eyebrow">YOUR PAYCHEQUE, ESTIMATED</span>
-          <h2>Take-home pay</h2>
+          <span className="eyebrow">YOUR INCOME & PAYCHEQUE, ESTIMATED</span>
+          <h2>Income breakdown</h2>
         </div>
         <div className="section-actions">
           <div className="takehome-toggle" aria-label="Choose take-home period">
@@ -139,15 +136,30 @@ export function TakeHomeCard({ takeHome, inputs }: ResultsProps) {
         </div>
       </div>
       <div className="takehome-total">
-        <span>{totalLabel}</span>
-        <strong>{formatINR(totalValue)}</strong>
+        <span>{mode === 'monthly' ? 'Total income / month' : 'Total income / year'}</span>
+        <strong>{formatINR(totalIncomeValue)}</strong>
       </div>
       <div className="takehome-lines">
-        <div><span>Gross + other income</span><strong>{formatINR(grossValue)}</strong></div>
-        <div><span>Income tax incl. cess</span><strong className="negative">−{formatINR(taxValue)}</strong></div>
+        <div className="takehome-earned"><span>{mode === 'monthly' ? 'Total income tax / month' : 'Total income tax / year'}</span><strong className="negative">−{formatINR(totalTaxValue)}</strong></div>
+        <div className="takehome-after-tax"><span>{mode === 'monthly' ? 'Total income after tax / month' : 'Total income after tax / year'}</span><strong>{formatINR(totalAfterTaxValue)}</strong></div>
+        {mode === 'yearly' && takeHome.components.map(({ label, amount, tax, afterTax }) =>
+          amount > 0 ? (
+            <div className="income-component" key={label}>
+              <strong className="income-component-label">{label}</strong>
+              <span><small>Before tax</small><strong>{formatINR(amount)}</strong></span>
+              <span><small>Allocated tax</small><strong className="negative">−{formatINR(tax)}</strong></span>
+              <span><small>After tax</small><strong>{formatINR(afterTax)}</strong></span>
+            </div>
+          ) : null,
+        )}
+        <div><span>Fixed salary</span><strong>{formatINR(inputs.gross / divisor)}</strong></div>
+        <div><span>Salary income tax incl. cess</span><strong className="negative">−{formatINR(takeHome.salaryTax / divisor)}</strong></div>
         <div><span>Employee PF contribution</span><strong className="negative">−{formatINR(pfValue)}</strong></div>
         <div><span>Professional tax</span><strong className="negative">−{formatINR(ptValue)}</strong></div>
-        <div className="takehome-annual"><span>{finalTakeHomeLabel}</span><strong>{formatINR(finalTakeHomeValue)}</strong></div>
+        <div className="takehome-annual">
+          <span>{mode === 'monthly' ? 'Salary in-hand / month (fixed salary only)' : 'Salary in-hand / year (fixed salary only)'}</span>
+          <strong>{formatINR(salaryInHandValue)}</strong>
+        </div>
       </div>
     </section>
   )

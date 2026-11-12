@@ -72,17 +72,18 @@ h1 em { font-style: normal; color: var(--green); }
 .summary-card { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; justify-content: center; gap: 7px; min-height: 130px; padding: 16px 17px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
 .summary-card > strong { color: var(--ink); font: 700 24px Manrope, sans-serif; letter-spacing: -.9px; white-space: nowrap; }
 .summary-card > span:last-child { color: #88938c; font-size: 10px; line-height: 1.4; }
-.summary-primary { color: #fff; background: var(--green); border-color: var(--green); }
-.summary-primary > strong { color: #fff; font-size: 27px; }
-.summary-primary > span:last-child { color: #c9ded4; }
-.summary-secondary { color: #fff; background: #b94f45; border-color: #b94f45; }
-.summary-secondary > strong { color: #fff; }
-.summary-secondary > span:last-child { color: #f5d6d1; }
-.summary-secondary .summary-topline { color: #f5d6d1; }
-.summary-secondary .summary-icon { border-color: #ffffff66; }
-.summary-tertiary { color: #55451e; background: #f4d36f; border-color: #f4d36f; }
-.summary-tertiary > strong { color: #493a18; }
-.summary-tertiary > span:last-child { color: #75612e; }
+.summary-income { color: #294d57; background: #e8f1f3; border-color: #d7e5e8; }
+.summary-income > strong { color: #234b56; }
+.summary-income > span:last-child { color: #5b747b; }
+.summary-income .summary-topline { color: #4a6b73; }
+.summary-tax { color: #fff; background: #b94f45; border-color: #b94f45; }
+.summary-tax > strong { color: #fff; }
+.summary-tax > span:last-child { color: #f5d6d1; }
+.summary-tax .summary-topline { color: #f5d6d1; }
+.summary-tax .summary-icon { border-color: #ffffff66; }
+.summary-net { color: #fff; background: var(--green); border-color: var(--green); }
+.summary-net > strong { color: #fff; font-size: 27px; }
+.summary-net > span:last-child { color: #c9ded4; }
 .summary-topline { width: 100%; display: flex; align-items: center; justify-content: space-between; color: #d5e5dd; font-size: 8px; letter-spacing: 1.1px; font-weight: 700; }
 .summary-icon { display: grid; width: 21px; height: 21px; place-items: center; border: 1px solid #ffffff44; border-radius: 50%; font-size: 11px; }
 .relief-notice { display: flex; gap: 12px; align-items: flex-start; padding: 15px 17px; border: 1px solid #f0dfb8; border-radius: 9px; background: #fffaf0; color: #745a29; }
@@ -110,6 +111,16 @@ h1 em { font-style: normal; color: var(--green); }
 .takehome-lines .negative { color: #b67159; }
 .takehome-lines .takehome-annual { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 13px; color: var(--ink); font-weight: 700; }
 .takehome-lines .takehome-annual strong { color: var(--green-dark); font-size: 13px; }
+.takehome-lines > .income-component { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: start; padding: 11px 10px; border-radius: 7px; background: #f7f9f6; }
+.income-component-label { grid-column: 1 / -1; color: var(--ink) !important; }
+.income-component > span { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.income-component small { color: #89938c; font-size: 10px; font-weight: 400; }
+.takehome-lines .income-component span strong { color: #46564d; font-size: 12px; }
+.takehome-lines .income-component span strong.negative { color: #b67159; }
+.takehome-lines .takehome-earned { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 13px; color: var(--ink); font-weight: 700; }
+.takehome-lines .takehome-earned strong { color: var(--green-dark); font-size: 13px; }
+.takehome-lines .takehome-after-tax { color: var(--ink); font-weight: 700; }
+.takehome-lines .takehome-after-tax strong { color: var(--green-dark); font-size: 13px; }
 .table-scroll { overflow-x: auto; }
 .table-scroll-hint { display: none; }
 table { width: 100%; border-collapse: collapse; text-align: left; font-size: 10px; white-space: nowrap; }
@@ -159,9 +170,9 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 .chart-tooltip span { font-weight: 600; }
 .donut-layout { display: block; width: min(100%, 1200px); margin: 0 auto; }
 .donut-wrap { position: relative; width: 100%; height: 460px; }
-.donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; }
-.donut-center strong { max-width: 90%; color: var(--ink); font: 700 clamp(16px, 2vw, 28px) Manrope, sans-serif; white-space: nowrap; }
-.donut-center span { color: #8c9790; font-size: clamp(9px, 1vw, 14px); white-space: nowrap; }
+.donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px; padding: 16px; box-sizing: border-box; pointer-events: none; }
+.donut-center strong { max-width: 100%; color: var(--ink); font: 700 clamp(15px, 1.7vw, 24px) Manrope, sans-serif; text-align: center; white-space: nowrap; }
+.donut-center span { max-width: 100%; color: #8c9790; font-size: clamp(9px, .9vw, 13px); text-align: center; white-space: nowrap; }
 .donut-mobile-legend { display: none; }
 .footer { display: flex; align-items: flex-start; gap: 22px; margin-top: 28px; padding: 22px 0 92px; border-top: 1px solid var(--line); }
 .footer-brand { flex: 0 0 125px; font-size: 16px; }
@@ -178,8 +189,8 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .hero { width: calc(100% + 64px); margin-left: -32px; padding-right: 32px; padding-left: 32px; }
   .calculator-layout { grid-template-columns: minmax(250px, 300px) minmax(0, 1fr); gap: 15px; }
   .summary-grid { grid-template-columns: 1fr 1fr; }
-  .summary-primary { grid-column: 1 / -1; min-height: 110px; }
-  .summary-card:not(.summary-primary) { min-height: 104px; }
+  .summary-net { grid-column: 1 / -1; min-height: 110px; }
+  .summary-card:not(.summary-net) { min-height: 104px; }
   .hero-art { right: -45px; opacity: .65; }
 }
 
@@ -201,10 +212,10 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .results-column { width: 100%; }
   .summary-grid { gap: 8px; }
   .summary-card { padding: 13px; }
-  .summary-primary { min-height: 102px; }
-  .summary-card:not(.summary-primary) { min-height: 98px; }
+  .summary-net { min-height: 102px; }
+  .summary-card:not(.summary-net) { min-height: 98px; }
   .summary-card > strong { font-size: 21px; }
-  .summary-primary > strong { font-size: 25px; }
+  .summary-net > strong { font-size: 25px; }
   .summary-card > span:last-child { font-size: 9px; }
   .content-card { padding: 16px; }
   .chart-grid { grid-template-columns: 1fr; gap: 13px; margin-top: 15px; }
@@ -213,8 +224,9 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .chart-small { height: 190px; }
   .donut-layout { width: 100%; }
   .donut-wrap { height: min(90vw, 440px); }
-  .donut-center strong { font-size: clamp(14px, 4vw, 22px); }
-  .donut-center span { font-size: 12px; }
+  .donut-center { padding: 12px; }
+  .donut-center strong { font-size: clamp(13px, 3.8vw, 18px); }
+  .donut-center span { font-size: clamp(9px, 2.8vw, 12px); }
   .donut-callout { display: none; }
   .donut-mobile-legend { display: flex; flex-direction: column; gap: 12px; max-width: 430px; padding: 0; margin: 8px auto 0; list-style: none; }
   .donut-mobile-legend li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 8px; align-items: center; color: #76827a; font-size: 12px; }
@@ -241,7 +253,7 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .hero-copy > p { padding-right: 0; }
   .fy-pill { font-size: 9px; }
   .summary-card > strong { font-size: 18px; }
-  .summary-primary > strong { font-size: 23px; }
+  .summary-net > strong { font-size: 23px; }
   .content-card { padding: 13px; }
   .donut-wrap { height: min(90vw, 400px); }
 }
@@ -270,7 +282,7 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 .advanced-fields summary span { font-size: 12px; }
 .summary-card { min-height: 145px; padding: 20px; }
 .summary-card > strong { font-size: 27px; }
-.summary-primary > strong { font-size: 30px; }
+.summary-net > strong { font-size: 30px; }
 .summary-card > span:last-child, .summary-topline { font-size: 10px; }
 .summary-icon { width: 26px; height: 26px; font-size: 14px; }
 .relief-notice { gap: 15px; padding: 18px 20px; }
@@ -287,6 +299,8 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 .takehome-lines > div { padding: 10px 1px; font-size: 13px; }
 .takehome-lines strong { font-size: 13px; }
 .takehome-lines .takehome-annual strong { font-size: 15px; }
+.takehome-lines .takehome-earned strong,
+.takehome-lines .takehome-after-tax strong { font-size: 15px; }
 table { font-size: 12px; }
 thead th { font-size: 11px; }
 tfoot .grand-total th, tfoot .grand-total td { font-size: 13px; }
@@ -304,7 +318,7 @@ tfoot .grand-total th, tfoot .grand-total td { font-size: 13px; }
   .summary-grid { gap: 10px; }
   .summary-card { padding: 15px; }
   .summary-card > strong { font-size: 24px; }
-  .summary-primary > strong { font-size: 27px; }
+  .summary-net > strong { font-size: 27px; }
   .summary-card > span:last-child { font-size: 11px; }
   .content-card { padding: 19px; }
   .mobile-taxbar { padding: 14px 18px calc(14px + env(safe-area-inset-bottom)); }

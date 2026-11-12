@@ -34,7 +34,7 @@ export function sweep(
     return {
       gross,
       tax: result.total,
-      annualTakeHome: takeHome(currentInputs, result).annual,
+      annualTakeHome: takeHome(currentInputs, result).salaryAnnual,
       marginalRate: (next.total - result.total) / 100,
     }
   })

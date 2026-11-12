@@ -28,15 +28,15 @@ const chartTooltip = ({ active, payload, label }: TooltipContentProps) => {
   if (!active || !payload?.length) return null
   return (
     <div className="chart-tooltip">
-      <strong>Gross {formatINR(Number(label))}</strong>
+      <strong>Fixed {formatINR(Number(label))}</strong>
       {payload.map((item) => (
         <div key={String(item.name)}>
           <span style={{ color: item.color }}>
             {String(item.name)}: {String(item.name).includes('rate') ? `${(Number(item.value) * 100).toFixed(1)}%` : formatINR(Number(item.value))}
           </span>
-          {item.name === 'Annual in-hand' && (
+          {item.name === 'Salary in-hand' && (
             <span style={{ color: item.color, display: 'block' }}>
-              Monthly in-hand: {formatINR(Number(item.value) / 12)}
+              Monthly salary in-hand: {formatINR(Number(item.value) / 12)}
             </span>
           )}
         </div>
@@ -69,15 +69,16 @@ const donutLabel = ({
   const radians = (-midAngle * Math.PI) / 180
   const startX = cx + outerRadius * Math.cos(radians)
   const startY = cy + outerRadius * Math.sin(radians)
-  const leftSide = name === 'In-hand'
-  const isIncomeTax = name.startsWith('Income tax')
+  const leftSide = name === 'Salary in-hand'
   const labelX = cx + (leftSide ? -outerRadius - 42 : outerRadius + 54)
   const labelY = leftSide
     ? cy
-    : isIncomeTax
-      ? cy + outerRadius * 0.7
-      : cy - outerRadius * 0.7
-  const rightLane = isIncomeTax ? 36 : 18
+    : name === 'PF'
+      ? cy - outerRadius * 0.85
+      : name.startsWith('Income tax')
+        ? cy + outerRadius * 0.12
+        : cy + outerRadius * 0.9
+  const rightLane = name === 'PF' ? 12 : name.startsWith('Income tax') ? 30 : 48
   const elbowX = cx + (leftSide ? -outerRadius - 16 : outerRadius + rightLane)
   const lineEndX = labelX + (leftSide ? 8 : -8)
 
@@ -125,8 +126,13 @@ export function Charts({ inputs, result }: ChartsProps) {
   const data = useMemo(() => sweep(500_000, chartMax, 301, inputs), [chartMax, inputs])
   const band = reliefBand()
   const takeHome = calculateTakeHome(inputs, result)
+  const additionalIncomeAfterTax = takeHome.components.reduce(
+    (total, component) => total + component.afterTax,
+    0,
+  )
   const donut = [
-    { name: 'In-hand', value: takeHome.annual, fill: '#2a7665' },
+    { name: 'Salary in-hand', value: takeHome.salaryAnnual, fill: '#2a7665' },
+    { name: 'Additional income after tax', value: additionalIncomeAfterTax, fill: '#85b59b' },
     { name: 'Income tax incl. cess & PT', value: result.total + takeHome.pt, fill: '#ee987c' },
     { name: 'PF', value: takeHome.pf, fill: '#e8b44e' },
   ].filter((entry) => entry.value > 0)
@@ -137,16 +143,16 @@ export function Charts({ inputs, result }: ChartsProps) {
         <div className="section-heading">
           <div>
             <span className="eyebrow">SEE THE BIG PICTURE</span>
-            <h2>Gross salary vs take-home</h2>
+            <h2>Fixed salary vs take-home</h2>
           </div>
-          <span className="chart-legend"><i />Annual in-hand</span>
+          <span className="chart-legend"><i />Annual salary in-hand</span>
         </div>
         <p className="chart-description">
           Estimated take-home across an annual salary range of ₹5L to {formatINRCompact(chartMax)}.
         </p>
         <div className="chart-axis-layout">
           <div className="chart-wrap chart-with-y-title">
-            <span className="chart-y-title">Annual in-hand</span>
+            <span className="chart-y-title">Annual salary in-hand</span>
             <div className="chart-plot">
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 0 }}>
@@ -156,15 +162,15 @@ export function Charts({ inputs, result }: ChartsProps) {
                   <Tooltip content={chartTooltip} />
                   <ReferenceArea x1={band.start} x2={band.end} fill="#f3c878" fillOpacity={0.24} />
                   <ReferenceLine x={inputs.gross} stroke="#31594e" strokeDasharray="4 4" />
-                  <Area type="monotone" dataKey="annualTakeHome" name="Annual in-hand" stroke="#2a7665" fill="#dcebe3" strokeWidth={2.5} dot={false} />
+                  <Area type="monotone" dataKey="annualTakeHome" name="Salary in-hand" stroke="#2a7665" fill="#dcebe3" strokeWidth={2.5} dot={false} />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
           </div>
-          <div className="chart-x-title">Annual gross salary</div>
+          <div className="chart-x-title">Annual fixed salary</div>
         </div>
         <p className="chart-footnote">
-          Shaded area shows the estimated rebate marginal-relief band ({formatINR(band.start)}–{formatINR(band.end)} gross for a salaried person with no other deductions).
+          Shaded area shows the estimated rebate marginal-relief band ({formatINR(band.start)}–{formatINR(band.end)} fixed for a salaried person with no other deductions).
         </p>
       </section>
 
@@ -182,7 +188,7 @@ export function Charts({ inputs, result }: ChartsProps) {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  innerRadius={isMobile ? '25%' : '24%'}
+                  innerRadius={isMobile ? '31%' : '30%'}
                   outerRadius={isMobile ? '88%' : '78%'}
                   paddingAngle={3}
                   stroke="none"
@@ -191,7 +197,7 @@ export function Charts({ inputs, result }: ChartsProps) {
                 />
               </PieChart>
             </ResponsiveContainer>
-            <div className="donut-center"><strong>{formatINRCompact(inputs.gross)}</strong><span>gross</span></div>
+            <div className="donut-center"><strong>{formatINRCompact(takeHome.totalIncome)}</strong><span>total income</span></div>
           </div>
           <ul className="donut-mobile-legend">
             {donut.map((entry) => (

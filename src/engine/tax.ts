@@ -5,6 +5,10 @@ export interface TaxInputs {
   basic: number
   basicMatchesGross: boolean
   otherIncome: number
+  stocks: number
+  bonus: number
+  referralBonus: number
+  dividend: number
   employerNps: number
   familyPension: number
   salaried: boolean
@@ -103,7 +107,11 @@ export function calculateTax(inputs: TaxInputs): TaxResult {
   const taxable = Math.max(
     0,
     inputs.gross +
-      inputs.otherIncome -
+      inputs.otherIncome +
+      inputs.stocks +
+      inputs.bonus +
+      inputs.referralBonus +
+      inputs.dividend -
       standardDeduction -
       inputs.employerNps -
       pensionDeduction,

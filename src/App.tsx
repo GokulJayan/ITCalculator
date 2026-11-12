@@ -119,8 +119,8 @@ function App() {
 
       <div className="share-toast" role="status" aria-live="polite">{copyMessage}</div>
       <div className="mobile-taxbar no-print">
-        <div><span>In-hand / month</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(takeHome.monthly)}</strong></div>
-        <div><span>Estimated tax</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(result.total)}</strong></div>
+        <div><span>Salary in-hand / month</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(takeHome.salaryMonthly)}</strong></div>
+        <div><span>Total tax / year</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(takeHome.totalTax)}</strong></div>
       </div>
     </div>
   )

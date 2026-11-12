@@ -12,6 +12,53 @@ describe('FY 2026-27 new-regime estimate', () => {
     expect(result.total).toBe(97_500)
   })
 
+  it('includes additional income components in taxable income and total income', () => {
+    const inputs = {
+      ...defaultInputs,
+      stocks: 100_000,
+      bonus: 50_000,
+      referralBonus: 25_000,
+      dividend: 25_000,
+    }
+    const result = calculateTax(inputs)
+    const takeHomeResult = takeHome(inputs, result)
+    const salaryOnlyInputs = {
+      ...inputs,
+      otherIncome: 0,
+      stocks: 0,
+      bonus: 0,
+      referralBonus: 0,
+      dividend: 0,
+    }
+    const salaryOnlyTakeHome = takeHome(salaryOnlyInputs, calculateTax(salaryOnlyInputs))
+
+    expect(result.taxable).toBe(2_125_000)
+    expect(takeHomeResult.salaryAnnual).toBe(salaryOnlyTakeHome.salaryAnnual)
+    expect(takeHomeResult.totalIncome).toBe(2_200_000)
+    expect(takeHomeResult.totalTax).toBe(result.total)
+    expect(takeHomeResult.componentTax).toBe(result.total - takeHomeResult.salaryTax)
+    expect(takeHomeResult.components.reduce((sum, component) => sum + component.tax, 0))
+      .toBeCloseTo(takeHomeResult.componentTax, 8)
+    expect(takeHomeResult.totalAfterTax).toBe(takeHomeResult.totalIncome - result.total)
+  })
+
+  it('keeps salary in-hand unchanged when a referral bonus is added', () => {
+    const salaryInputs = { ...defaultInputs, gross: 1_500_000, basic: 1_500_000 }
+    const salaryTax = calculateTax(salaryInputs)
+    const salaryTakeHome = takeHome(salaryInputs, salaryTax)
+
+    const bonusInputs = { ...salaryInputs, referralBonus: 200_000 }
+    const combinedTax = calculateTax(bonusInputs)
+    const combinedTakeHome = takeHome(bonusInputs, combinedTax)
+
+    expect(salaryTakeHome.salaryAnnual).toBe(1_310_100)
+    expect(combinedTakeHome.salaryAnnual).toBe(salaryTakeHome.salaryAnnual)
+    expect(combinedTakeHome.totalIncome).toBe(1_700_000)
+    expect(combinedTakeHome.totalAfterTax).toBe(1_700_000 - combinedTax.total)
+    expect(combinedTakeHome.components.find((component) => component.label === 'Referral bonus'))
+      .toMatchObject({ amount: 200_000, afterTax: 200_000 - combinedTakeHome.componentTax })
+  })
+
   it('rebates tax at the ₹12.75L gross salary threshold', () => {
     const result = calculateTax({ ...defaultInputs, gross: 1_275_000 })
     expect(result.taxable).toBe(1_200_000)
@@ -71,7 +118,7 @@ describe('FY 2026-27 new-regime estimate', () => {
       const result = calculateTax(inputs)
       const net = takeHome(inputs, result)
       expect(result.total).toBeGreaterThanOrEqual(previousTax)
-      expect(net.annual).toBeGreaterThanOrEqual(0)
+      expect(net.salaryAnnual).toBeGreaterThanOrEqual(0)
       previousTax = result.total
     }
   })
