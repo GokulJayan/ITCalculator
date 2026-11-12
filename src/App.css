@@ -175,6 +175,7 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 
 @media (max-width: 1050px) {
   .app-shell { padding: 0 32px; }
+  .hero { width: calc(100% + 64px); margin-left: -32px; padding-right: 32px; padding-left: 32px; }
   .calculator-layout { grid-template-columns: minmax(250px, 300px) minmax(0, 1fr); gap: 15px; }
   .summary-grid { grid-template-columns: 1fr 1fr; }
   .summary-primary { grid-column: 1 / -1; min-height: 110px; }
@@ -184,6 +185,7 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 
 @media (max-width: 760px) {
   .app-shell { padding: 0 18px; }
+  .hero { width: calc(100% + 36px); margin-left: -18px; padding-right: 18px; padding-left: 18px; }
   .topbar { height: 68px; }
   .topbar-actions { gap: 11px; }
   .fy-pill { padding: 7px 9px; font-size: 10px; }
@@ -192,7 +194,7 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
   .hero { min-height: 230px; }
   .hero-copy { max-width: 100%; padding: 30px 0; }
   h1 { font-size: 38px; letter-spacing: -2px; }
-  .hero-copy > p { max-width: 390px; padding-right: 40px; font-size: 12px; line-height: 1.6; }
+  .hero-copy > p { max-width: 390px; padding-right: 0; font-size: 12px; line-height: 1.6; }
   .hero-art { right: -205px; opacity: .28; }
   .calculator-layout { display: flex; flex-direction: column; gap: 16px; }
   .input-panel { position: static; width: 100%; }
@@ -235,7 +237,8 @@ tfoot .grand-total th, tfoot .grand-total td { border-bottom: 0; border-top: 1px
 
 @media (max-width: 380px) {
   .app-shell { padding: 0 12px; }
-  .hero-copy > p { padding-right: 20px; }
+  .hero { width: calc(100% + 24px); margin-left: -12px; padding-right: 12px; padding-left: 12px; }
+  .hero-copy > p { padding-right: 0; }
   .fy-pill { font-size: 9px; }
   .summary-card > strong { font-size: 18px; }
   .summary-primary > strong { font-size: 23px; }
