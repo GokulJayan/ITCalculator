@@ -4,6 +4,7 @@
 .topbar { height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .brand, .footer-brand { display: flex; align-items: center; gap: 10px; font: 800 21px Manrope, sans-serif; letter-spacing: -1px; color: var(--ink); }
 .brand-mark { width: 31px; height: 31px; display: inline-grid; place-items: center; color: #fff; background: var(--green); border-radius: 10px 10px 10px 3px; font: 700 16px Manrope, sans-serif; letter-spacing: 0; }
+.brand-mark svg { width: 72%; height: 72%; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .brand-dot { color: var(--orange); }
 .topbar-actions { display: flex; align-items: center; gap: 20px; }
 .fy-pill { display: inline-flex; gap: 8px; align-items: center; border: 1px solid #e3e7e0; color: #57645d; background: #fbfcf9; padding: 9px 13px; border-radius: 30px; font-size: 12px; font-weight: 600; }

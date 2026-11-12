@@ -33,8 +33,15 @@ function App() {
     <div className="app-shell">
       <header className="topbar">
         <a className="brand" href="/" aria-label="Paisa tax calculator home">
-          <span className="brand-mark">₹</span>
-          <span>paisa<span className="brand-dot">.</span></span>
+          <span className="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <ellipse cx="9" cy="7" rx="5" ry="2.5" />
+              <path d="M4 7v3c0 1.4 2.2 2.5 5 2.5 1 0 1.9-.1 2.7-.4M4 10v3c0 1.4 2.2 2.5 5 2.5.8 0 1.6-.1 2.3-.3M4 13v3c0 1.4 2.2 2.5 5 2.5" />
+              <ellipse cx="16" cy="13" rx="4" ry="2" />
+              <path d="M12 13v2.5c0 1.1 1.8 2 4 2s4-.9 4-2V13" />
+            </svg>
+          </span>
+          <span>chillara<span className="brand-dot">.</span></span>
         </a>
         <div className="topbar-actions">
           <span className="fy-pill">{FY.label} <span>·</span> New regime</span>
@@ -92,7 +99,17 @@ function App() {
       </main>
 
       <footer className="footer">
-        <div className="footer-brand"><span className="brand-mark">₹</span><strong>paisa.</strong></div>
+        <div className="footer-brand">
+          <span className="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <ellipse cx="9" cy="7" rx="5" ry="2.5" />
+              <path d="M4 7v3c0 1.4 2.2 2.5 5 2.5 1 0 1.9-.1 2.7-.4M4 10v3c0 1.4 2.2 2.5 5 2.5.8 0 1.6-.1 2.3-.3M4 13v3c0 1.4 2.2 2.5 5 2.5" />
+              <ellipse cx="16" cy="13" rx="4" ry="2" />
+              <path d="M12 13v2.5c0 1.1 1.8 2 4 2s4-.9 4-2V13" />
+            </svg>
+          </span>
+          <strong>paisa.</strong>
+        </div>
         <div className="footer-copy">
           <span>For {FY.label} ({FY.assessmentYear}) · New tax regime</span>
           <p>Planning estimate only, not tax advice. Tax-rule assumptions follow the supplied plan and have not been independently verified against current official sources. Professional tax is user-configured; actual payroll and tax outcomes may differ.</p>
