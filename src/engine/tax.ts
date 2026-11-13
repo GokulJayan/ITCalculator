@@ -73,7 +73,7 @@ function taxBeforeSurcharge(taxable: number, nri: boolean): number {
   const base = slabTax(taxable).tax
   if (nri) return base
   if (taxable <= FY.rebate.limit) return Math.max(0, base - FY.rebate.max)
-  return Math.min(base, taxable - FY.rebate.limit)
+  return Math.min(base, (taxable - FY.rebate.limit) / (1 + FY.cess))
 }
 
 function surchargeMarginalRelief(
@@ -126,7 +126,7 @@ export function calculateTax(inputs: TaxInputs): TaxResult {
       rebate = Math.min(base, FY.rebate.max)
       tax = base - rebate
     } else {
-      const cap = taxable - FY.rebate.limit
+      const cap = (taxable - FY.rebate.limit) / (1 + FY.cess)
       tax = Math.min(base, cap)
       rebateRelief = base - tax
     }

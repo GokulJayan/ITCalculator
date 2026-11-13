@@ -68,9 +68,13 @@ describe('FY 2026-27 new-regime estimate', () => {
   it('applies marginal relief above the rebate limit and adds cess', () => {
     const result = calculateTax({ ...defaultInputs, gross: 1_280_000 })
     expect(result.taxable).toBe(1_205_000)
-    expect(result.rebateRelief).toBe(55_750)
-    expect(result.total).toBe(5_200)
-    expect(result.marginalRate).toBeCloseTo(1.04, 2)
+    expect(result.total).toBeCloseTo(5_000, 8)
+    expect(result.marginalRate).toBeCloseTo(1, 2)
+  })
+
+  it('caps tax including cess at income above the ₹12.75L salary threshold', () => {
+    const result = calculateTax({ ...defaultInputs, gross: 1_300_000 })
+    expect(result.total).toBeCloseTo(25_000, 8)
   })
 
   it('does not apply the section 87A rebate to an NRI', () => {
@@ -98,7 +102,7 @@ describe('FY 2026-27 new-regime estimate', () => {
   it('matches notebook tax before cess at representative salaries', () => {
     const salaries = [
       { gross: 1_500_000, taxBeforeCess: 93_750 },
-      { gross: 1_280_000, taxBeforeCess: 5_000 },
+      { gross: 1_280_000, taxBeforeCess: 5_000 / 1.04 },
       { gross: 1_275_000, taxBeforeCess: 0 },
     ]
     for (const sample of salaries) {
@@ -106,7 +110,7 @@ describe('FY 2026-27 new-regime estimate', () => {
         ...defaultInputs,
         gross: sample.gross,
       })
-      expect(total - _cess).toBe(sample.taxBeforeCess)
+      expect(total - _cess).toBeCloseTo(sample.taxBeforeCess, 8)
       expect(result.taxable).toBeGreaterThanOrEqual(0)
     }
   })

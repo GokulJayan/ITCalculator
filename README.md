@@ -27,7 +27,7 @@ Connect this project directory to Netlify. The included `netlify.toml` runs `npm
 
 - Slabs, ₹75,000 salaried standard deduction, ₹60,000 rebate limit, marginal relief, surcharge tiers, and 4% cess are configured in `src/config/fy2026-27.ts`.
 - This configuration follows the assumptions in the supplied implementation plan. It has **not** been independently verified against current official tax sources; confirm the law and rates before relying on or publishing the estimate.
-- Rebate is excluded when the NRI input is enabled. Rebate marginal relief is modeled as a cap on tax at the income above the rebate threshold. Surcharge marginal relief is also modeled.
+- Rebate is excluded when the NRI input is enabled. Rebate marginal relief caps tax including cess at income above the rebate threshold (₹12.75L gross salary for a salaried person with only the standard deduction). Surcharge marginal relief is also modeled.
 - Employer NPS is treated as a deductible amount entered by the user. Family-pension deduction is modeled as one-third of the entered amount, capped at ₹25,000.
 - Employee PF is estimated as half of the combined PF rate applied to basic salary (6% of basic at the default 12% combined rate). Professional tax is a user-entered annual amount; no state schedules are included.
 - Stock income, bonuses, referral bonuses, and dividends entered in Advanced inputs are included as taxable income using the calculator's slab model. Actual stock and dividend taxation depends on the type of income and applicable rules; this simplified estimate does not model those distinctions.
