@@ -135,13 +135,23 @@ export function TakeHomeCard({ takeHome, inputs }: ResultsProps) {
           </button>
         </div>
       </div>
-      <div className="takehome-total">
-        <span>{mode === 'monthly' ? 'Total income / month' : 'Total income / year'}</span>
-        <strong>{formatINR(totalIncomeValue)}</strong>
+      <div className="income-flow" aria-label={`${formatINR(totalIncomeValue)} total income minus ${formatINR(totalTaxValue)} total income tax equals ${formatINR(totalAfterTaxValue)} net income after tax`}>
+        <div className="income-flow-step income-flow-total">
+          <span>{mode === 'monthly' ? 'Total income / month' : 'Total income / year'}</span>
+          <strong>{formatINR(totalIncomeValue)}</strong>
+        </div>
+        <span className="income-flow-operator" aria-hidden="true">−</span>
+        <div className="income-flow-step income-flow-tax">
+          <span>{mode === 'monthly' ? 'Total income tax / month' : 'Total income tax / year'}</span>
+          <strong>{formatINR(totalTaxValue)}</strong>
+        </div>
+        <span className="income-flow-operator" aria-hidden="true">=</span>
+        <div className="income-flow-step income-flow-net">
+          <span>{mode === 'monthly' ? 'Net income after tax / month' : 'Net income after tax / year'}</span>
+          <strong>{formatINR(totalAfterTaxValue)}</strong>
+        </div>
       </div>
       <div className="takehome-lines">
-        <div className="takehome-earned"><span>{mode === 'monthly' ? 'Total income tax / month' : 'Total income tax / year'}</span><strong className="negative">−{formatINR(totalTaxValue)}</strong></div>
-        <div className="takehome-after-tax"><span>{mode === 'monthly' ? 'Total income after tax / month' : 'Total income after tax / year'}</span><strong>{formatINR(totalAfterTaxValue)}</strong></div>
         {mode === 'yearly' && takeHome.components.map(({ label, amount, tax, afterTax }) =>
           amount > 0 ? (
             <div className="income-component" key={label}>

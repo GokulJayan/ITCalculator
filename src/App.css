@@ -105,6 +105,15 @@ h1 em { font-style: normal; color: var(--green); }
 .takehome-total { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 14px 15px; border-radius: 8px; background: #f2f7f2; }
 .takehome-total span { color: #5d7466; font-size: 11px; font-weight: 600; }
 .takehome-total strong { color: var(--green-dark); font: 700 22px Manrope, sans-serif; letter-spacing: -.6px; }
+.income-flow { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr); align-items: stretch; gap: 7px; }
+.income-flow-step { display: flex; min-width: 0; flex-direction: column; justify-content: center; gap: 8px; padding: 12px; border: 1px solid #dfe7e0; border-radius: 8px; background: #f6f8f5; }
+.income-flow-step span { color: #64746a; font-size: 10px; font-weight: 600; line-height: 1.4; }
+.income-flow-step strong { color: #344d41; font: 700 clamp(14px, 1.35vw, 20px) Manrope, sans-serif; white-space: nowrap; }
+.income-flow-tax { border-color: #f0ddd7; background: #fcf4f1; }
+.income-flow-tax strong { color: #b94f45; }
+.income-flow-net { border-color: #d3e6dc; background: #eff7f2; }
+.income-flow-net strong { color: var(--green-dark); }
+.income-flow-operator { display: grid; align-self: center; place-items: center; color: #89958d; font-size: 18px; font-weight: 600; }
 .takehome-lines { padding-top: 11px; }
 .takehome-lines > div { display: flex; align-items: center; justify-content: space-between; padding: 8px 1px; color: #718078; font-size: 11px; }
 .takehome-lines strong { color: #46564d; font-size: 11px; font-weight: 600; }
@@ -333,6 +342,10 @@ tfoot .grand-total th, tfoot .grand-total td { font-size: 13px; }
   .takehome-card .section-heading .eyebrow,
   .takehome-card .section-heading h2 { white-space: nowrap; }
   .takehome-card .section-actions { width: 100%; justify-content: space-between; gap: 10px; }
+  .income-flow { grid-template-columns: 1fr; row-gap: 0; }
+  .income-flow-operator { height: 28px; }
+  .income-flow-step { padding: 11px 13px; }
+  .income-flow-step strong { font-size: 18px; }
   .chart-card .section-heading { align-items: flex-start; }
   .chart-wide .section-heading { flex-direction: column; align-items: flex-start; gap: 8px; }
   .chart-card .section-heading h2 { font-size: 19px; line-height: 1.25; }
